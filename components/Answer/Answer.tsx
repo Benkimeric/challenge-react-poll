@@ -1,7 +1,13 @@
 import React, { FC } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 import { ContainerProps, Props } from './Answer.types';
+
+const breatheAnimation = keyframes`
+ 0% { width: 30%; opacity: 0}
+ 40% { width: 40%; opacity: 0.3; }
+ 100% {  width: 100%; opacity: 0.6; }
+`;
 
 const AnswerContainer = styled.div`
   border: 1px solid #c9c9c9;
@@ -10,7 +16,10 @@ const AnswerContainer = styled.div`
   padding: 8px 4px;
   margin-bottom: 8px;
   font-size: 16px;
-  font-weight: ${({isMostVoted, isVoted}: ContainerProps) => isMostVoted && isVoted && 'bold'};
+  animation-name: ${breatheAnimation};
+  animation-duration: 0.6s;
+  font-weight: ${({ isMostVoted, isVoted }: ContainerProps) =>
+    isMostVoted && isVoted && 'bold'};
   ${({ percentage, isMostVoted, isVoted }: ContainerProps) =>
     isVoted &&
     `background: linear-gradient(to right, ${
@@ -28,6 +37,7 @@ const Image = styled.img`
 
 const PercentageVote = styled.span`
   float: right;
+  padding-right: 4px;
 `;
 
 const Answer: FC<Props> = (props: Props) => {
