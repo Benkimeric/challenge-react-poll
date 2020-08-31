@@ -5,23 +5,23 @@ import Answer from '../Answer/Answer';
 import { Props } from './QuestionAndAnswer.types';
 import { QandA } from '../../types';
 
-type Props1 = {
+type QuestionProps = {
   isVoted: boolean;
 };
-const QuestionWrapper = styled.div`
+const QuestionWrapper:FC<QuestionProps> = styled.div`
   padding: 0 20px;
   box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
   border-radius: 4px;
   max-width: 320px;
-  ${({ isVoted }: Props1) =>
+  ${({ isVoted }: QuestionProps) =>
     isVoted ? 'cursor: not-allowed' : 'cursor: pointer'}
 `;
 
-const Question = styled.h2`
+const Question:FC = styled.h2`
   color: #030d30;
 `;
 
-const TotalVotes = styled.p`
+const TotalVotes:FC = styled.p`
   color: #b5b5b5;
 `;
 
@@ -35,7 +35,7 @@ const QuestionAndAnswer: FC<Props> = (props: Props) => {
     ...qAndA.answers.map(({ votes }) => votes)
   );
 
-  const totalVotes = qAndA.answers
+  const totalVotes:number = qAndA.answers
     .map((poll) => poll.votes)
     .reduce((prev, current) => prev + current);
 
@@ -48,6 +48,7 @@ const QuestionAndAnswer: FC<Props> = (props: Props) => {
     }));
     setSelected(index);
   };
+
   return (
     <QuestionWrapper isVoted={selected !== undefined}>
       <Question>{qAndA.question.text}</Question>

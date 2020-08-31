@@ -2,8 +2,7 @@ export type ContainerProps = {
   percentage: number;
   isMostVoted: boolean;
   isVoted: boolean;
-  isClicked?: boolean;
-  clicking: boolean;
+  selecting: boolean;
   onClick: () => void;
 };
 

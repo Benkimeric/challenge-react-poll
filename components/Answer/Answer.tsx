@@ -1,6 +1,5 @@
 import React, { FC, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-
+import styled, { keyframes, StyledComponent } from 'styled-components';
 import { ContainerProps, Props } from './Answer.types';
 
 const breatheAnimation = keyframes`
@@ -19,7 +18,7 @@ const AnswerContainer: FC<ContainerProps> = styled.div`
   animation-name: ${breatheAnimation};
   transition: width .5s;
   animation-duration: 0.6s;
-  width: ${({ clicking }) => clicking  ? '50%;': '100%'}
+  width: ${({ selecting }) => selecting  ? '50%;': '100%'}
   font-weight: ${({ isMostVoted, isVoted }: ContainerProps) =>
     isMostVoted && isVoted && 'bold'};
   ${({ percentage, isMostVoted, isVoted }: ContainerProps) =>
@@ -33,11 +32,11 @@ const AnswerContainer: FC<ContainerProps> = styled.div`
     }%`});
 `;
 
-const Image = styled.img`
+const Image:StyledComponent<"img", any, {}, never> = styled.img`
   margin-left: 8px;
 `;
 
-const PercentageVote = styled.span`
+const PercentageVote:FC = styled.span`
   float: right;
   padding-right: 4px;
 `;
@@ -52,14 +51,14 @@ const Answer: FC<Props> = (props: Props) => {
     isVoted,
   } = props;
 
-  const [clicking, setClicking] = useState<boolean>(false);
+  const [selecting, setSelecting] = useState<boolean>(false);
 
-  const handleVoting = () => {
+  const handleVoting = ():void => {
     if (!isVoted) {
-      setClicking(true);
+      setSelecting(true);
       handleOnClick();
       setTimeout(() =>{
-        setClicking(false)
+        setSelecting(false)
       }, 200)
     }
     
@@ -71,7 +70,7 @@ const Answer: FC<Props> = (props: Props) => {
       isMostVoted={isMostVoted}
       percentage={percentage}
       onClick={handleVoting}
-      clicking={clicking}
+      selecting={selecting}
     >
       {text}
       {isVoted && <PercentageVote>{percentage}%</PercentageVote>}
