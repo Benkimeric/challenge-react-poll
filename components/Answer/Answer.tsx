@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 
 import { ContainerProps, Props } from './Answer.types';
@@ -9,7 +9,7 @@ const breatheAnimation = keyframes`
  100% {  width: 100%; opacity: 0.6; }
 `;
 
-const AnswerContainer = styled.div`
+const AnswerContainer: FC<ContainerProps> = styled.div`
   border: 1px solid #c9c9c9;
   background: transparent;
   border-radius: 8px;
@@ -17,7 +17,9 @@ const AnswerContainer = styled.div`
   margin-bottom: 8px;
   font-size: 16px;
   animation-name: ${breatheAnimation};
+  transition: width .5s;
   animation-duration: 0.6s;
+  width: ${({ clicking }) => clicking  ? '50%;': '100%'}
   font-weight: ${({ isMostVoted, isVoted }: ContainerProps) =>
     isMostVoted && isVoted && 'bold'};
   ${({ percentage, isMostVoted, isVoted }: ContainerProps) =>
@@ -50,10 +52,17 @@ const Answer: FC<Props> = (props: Props) => {
     isVoted,
   } = props;
 
+  const [clicking, setClicking] = useState<boolean>(false);
+
   const handleVoting = () => {
     if (!isVoted) {
+      setClicking(true);
       handleOnClick();
+      setTimeout(() =>{
+        setClicking(false)
+      }, 200)
     }
+    
   };
 
   return (
@@ -62,6 +71,7 @@ const Answer: FC<Props> = (props: Props) => {
       isMostVoted={isMostVoted}
       percentage={percentage}
       onClick={handleVoting}
+      clicking={clicking}
     >
       {text}
       {isVoted && <PercentageVote>{percentage}%</PercentageVote>}
