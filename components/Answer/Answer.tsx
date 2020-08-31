@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 import { ContainerProps, Props } from './Answer.types';
@@ -9,7 +9,8 @@ const AnswerContainer = styled.div`
   border-radius: 8px;
   padding: 8px 4px;
   margin-bottom: 8px;
-  font-size: 20px;
+  font-size: 16px;
+  font-weight: ${({isMostVoted, isVoted}: ContainerProps) => isMostVoted && isVoted && 'bold'};
   ${({ percentage, isMostVoted, isVoted }: ContainerProps) =>
     isVoted &&
     `background: linear-gradient(to right, ${
@@ -21,14 +22,15 @@ const AnswerContainer = styled.div`
     }%`});
 `;
 
-const Img = styled.img`
+const Image = styled.img`
   margin-left: 8px;
 `;
 
 const PercentageVote = styled.span`
   float: right;
 `;
-const Answer = (props: Props) => {
+
+const Answer: FC<Props> = (props: Props) => {
   const {
     percentage,
     isMostVoted,
@@ -52,11 +54,11 @@ const Answer = (props: Props) => {
       onClick={handleVoting}
     >
       {text}
-      <PercentageVote>{percentage}</PercentageVote>
+      {isVoted && <PercentageVote>{percentage}%</PercentageVote>}
       {isSelected && (
-        <Img
-          alt="user selection check"
-          height={16}
+        <Image
+          alt="User selected choice"
+          height={18}
           src={require('../../static/check-circle.svg')}
         />
       )}

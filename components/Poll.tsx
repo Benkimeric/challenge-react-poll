@@ -1,18 +1,27 @@
-import * as React from 'react';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 import { QandAsDocument } from '../types';
 
-import QuestionAndAnswer from './QuestionAndAnswer/QuestionAndAnswer'
+import QuestionAndAnswer from './QuestionAndAnswer/QuestionAndAnswer';
 
 type Props = {
   qandas: QandAsDocument /* q and a's -- questions and answers document */;
 };
 
-const PollWrapper = styled.div``;
+const PollWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
-export default function Poll({ qandas }: Props) {
+const Poll: FC<Props> = ({ qandas }: Props) => {
   console.log('questions and answers: ', qandas);
-  return <PollWrapper>
-    <QuestionAndAnswer />
-  </PollWrapper>;
-}
+  const { questions } = qandas;
+  return (
+    <PollWrapper>
+      <QuestionAndAnswer questionAndAnswer={questions[0]} />
+    </PollWrapper>
+  );
+};
+
+export default Poll;
