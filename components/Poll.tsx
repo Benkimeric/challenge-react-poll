@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { QandAsDocument } from '../types';
+import { QandAsDocument, QandA } from '../types';
 
 import QuestionAndAnswer from './QuestionAndAnswer/QuestionAndAnswer';
 
@@ -16,10 +16,17 @@ const PollWrapper = styled.div`
 
 const Poll: FC<Props> = ({ qandas }: Props) => {
   console.log('questions and answers: ', qandas);
-  const { questions } = qandas;
+const { questions } = qandas;
+  const [randomQuestion, setRandomQuestion] = useState<QandA>()
+
+  useEffect(() => {
+    setRandomQuestion(questions[Math.floor(Math.random() * questions.length)])
+  }, [questions]);
+
+  
   return (
     <PollWrapper>
-      <QuestionAndAnswer questionAndAnswer={questions[0]} />
+      {randomQuestion && <QuestionAndAnswer questionAndAnswer={randomQuestion} />}
     </PollWrapper>
   );
 };
