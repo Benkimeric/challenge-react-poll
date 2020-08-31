@@ -1,14 +1,34 @@
-import * as React from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { QandAsDocument } from '../types';
+import { QandAsDocument, QandA } from '../types';
+
+import QuestionAndAnswer from './QuestionAndAnswer/QuestionAndAnswer';
 
 type Props = {
   qandas: QandAsDocument /* q and a's -- questions and answers document */;
 };
 
-const PollWrapper = styled.div``;
+const PollWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+`;
 
-export default function Poll({ qandas }: Props) {
-  console.log('questions and answers: ', qandas);
-  return <PollWrapper>The Poll implementation goes here</PollWrapper>;
-}
+const Poll: FC<Props> = ({ qandas }: Props) => {
+const { questions } = qandas;
+  const [randomQuestion, setRandomQuestion] = useState<QandA>()
+
+  useEffect(() => {
+    setRandomQuestion(questions[Math.floor(Math.random() * questions.length)])
+  }, [questions]);
+
+  
+  return (
+    <PollWrapper>
+      {randomQuestion && <QuestionAndAnswer questionAndAnswer={randomQuestion} />}
+    </PollWrapper>
+  );
+};
+
+export default Poll;
