@@ -2,6 +2,8 @@ export type ContainerProps = {
   percentage: number;
   isMostVoted: boolean;
   isVoted: boolean;
+  selecting: boolean;
+  onClick: () => void;
 };
 
 export type Props = {
